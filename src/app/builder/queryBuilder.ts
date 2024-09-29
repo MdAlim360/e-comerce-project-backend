@@ -7,10 +7,13 @@ class QueryBuilder<T> {
     constructor(modelQuery: Query<T[], T>, query: Record<string, unknown>) {
         this.modelQuery = modelQuery;
         this.query = query;
+
+
     }
 
     search(searchableFields: string[]) {
         const searchTerm = this.query.searchTerm as string;
+        const email = this.query.searchTerm as string;
         if (searchTerm) {
             this.modelQuery = this.modelQuery.find({
                 $or: searchableFields.map(
@@ -20,6 +23,17 @@ class QueryBuilder<T> {
                         }) as FilterQuery<T>,
                 ),
             });
+
+        } else if (email) {
+            this.modelQuery = this.modelQuery.find({
+                $or: searchableFields.map(
+                    (field) =>
+                        ({
+                            [field]: { $regex: email, $options: 'i' },
+                        }) as FilterQuery<T>,
+                ),
+            });
+
         }
         return this;
     }
@@ -29,7 +43,7 @@ class QueryBuilder<T> {
         const minPrice = Number(queryObj.minPrice);
         const maxPrice = Number(queryObj.maxPrice);
 
-        console.log(minPrice, maxPrice); // Ensure these are numbers
+        // console.log(minPrice, maxPrice); // Ensure these are numbers
 
         // Filtering
         const excludeFields = ['searchTerm', 'sort', 'limit', 'page', 'fields', 'minPrice', 'maxPrice'];

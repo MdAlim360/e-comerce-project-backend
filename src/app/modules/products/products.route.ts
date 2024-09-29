@@ -5,17 +5,17 @@ import express from 'express'
 
 const router = express.Router();
 
-router.post('/create-products',
+router.post('/',
     validateRequest(productsValidation.productValidationSchema),
     productController.createProducts)
 router.get('/',
     productController.getProducts)
-router.get('/:id',
+router.get('/:productId',
     productController.getSingleProduct)
-router.patch('/:id',
+router.patch('/:productId',
     validateRequest(productsValidation.updateProductValidationSchema),
     productController.updateProduct)
-router.delete('/:id',
+router.delete('/:productId',
     productController.deleteProduct)
 
 export const create_products_routes = router;  

@@ -1,46 +1,68 @@
 import { Schema, model } from "mongoose";
 import { TProducts } from "./products.interface";
 
-const productsSchema = new Schema<TProducts>({
-    image: {
+// Variant Schema
+const VariantSchema = new Schema({
+    type: {
         type: String,
-        required: [true, 'Image link must needed'],
-        trim: true
+        required: true
     },
+    value: {
+        type: String,
+        required: true
+    }
+});
+
+// Inventory Schema
+const InventorySchema = new Schema({
+    quantity: {
+        type: Number,
+        required: true,
+        min: 0
+    },
+    inStock: {
+        type: Boolean,
+        required: true
+    }
+});
+
+// Product Schema
+const productsSchema = new Schema<TProducts>({
     name: {
         type: String,
         required: [true, 'Name is required'],
         trim: true
     },
-    brand: {
-        type: String,
-        required: [true, 'Brand is required'],
-        trim: true
-    },
-    available_quantity: {
-        type: Number,
-        required: [true, 'available quantity is required'],
-    },
+
+
     price: {
         type: Number,
-        required: [true, 'price is required'],
+        required: [true, 'Price is required'],
     },
-    rating: {
-        type: Number,
-        required: [true, 'Rating quantity is required'],
-    },
+
     description: {
         type: String,
-        required: [true, 'Description quantity is required'],
-        maxlength: [1000, 'Description can not be more than 1000 characters']
+        required: [true, 'Description is required'],
+        maxlength: [1000, 'Description cannot be more than 1000 characters'],
     },
-    isDeleted: {
+    category: {
         type: String,
-        default: false,
-    }
-},
-    {
-        timestamps: true,
-    },)
+        required: [true, 'Category is required'],
+    },
+    tags: {
+        type: [String],
+        required: true
+    },
+    variants: {
+        type: [VariantSchema],
+        required: true
+    },
+    inventory: {
+        type: InventorySchema,
+        required: true
+    },
+}, {
+    timestamps: true,
+});
 
-export const Product = model<TProducts>("Product", productsSchema)
+export const Product = model<TProducts>("Product", productsSchema);
