@@ -23,7 +23,7 @@ Before installing the project, ensure you have the following installed:
 
 1. **Clone the repository:**
    ```bash
-   https://github.com/MdAlim360/meeting-room-booking-system.git
+   https://github.com/MdAlim360/e-comerce-project-backend.git
    cd meeting-room-booking-system
    ```
 1. **Install dependencies:**
