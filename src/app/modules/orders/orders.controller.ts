@@ -6,11 +6,12 @@ import { orderServices } from "./order.service";
 
 const createOrders = catchAsync(async (req, res) => {
     const result = await orderServices.createOrdersIntoDb(req.body);
+    const responseData = Array.isArray(result) ? result[0] : result;
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
         message: 'Order is created successfully',
-        data: result,
+        data: responseData,
     });
 });
 const getOrders = catchAsync(async (req, res) => {

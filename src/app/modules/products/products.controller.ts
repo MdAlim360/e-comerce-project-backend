@@ -5,11 +5,12 @@ import { productServices } from "./products.service";
 
 const createProducts = catchAsync(async (req, res) => {
     const result = await productServices.createProductsIntoDb(req.body);
+    const responseData = Array.isArray(result) ? result[0] : result;
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
         message: 'Product is created successfully',
-        data: result,
+        data: responseData,
     });
 });
 const getProducts = catchAsync(async (req, res) => {
